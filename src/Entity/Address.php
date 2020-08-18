@@ -15,27 +15,27 @@ class Address
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $street;
+    private ?string $street;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $streetnumber;
+    private ?int $streetNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $city;
+    private ?string $city;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $zipcode;
+    private ?int $zipcode;
 
     public function getId(): ?int
     {
@@ -54,14 +54,14 @@ class Address
         return $this;
     }
 
-    public function getStreetnumber(): ?int
+    public function getStreetNumber(): ?int
     {
-        return $this->streetnumber;
+        return $this->streetNumber;
     }
 
-    public function setStreetnumber(int $streetnumber): self
+    public function setStreetNumber(int $streetNumber): self
     {
-        $this->streetnumber = $streetnumber;
+        $this->streetNumber = $streetNumber;
 
         return $this;
     }

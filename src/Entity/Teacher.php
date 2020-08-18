@@ -15,22 +15,22 @@ class Teacher
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $emailÂ;
+    private string $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $address;
+    private ?string $address;
 
     public function getId(): ?int
     {
@@ -49,14 +49,14 @@ class Teacher
         return $this;
     }
 
-    public function getEmailÂ(): ?string
+    public function getEmail(): ?string
     {
-        return $this->emailÂ;
+        return $this->email;
     }
 
-    public function setEmailÂ(string $emailÂ): self
+    public function setEmail(string $email): self
     {
-        $this->emailÂ = $emailÂ;
+        $this->email = $email;
 
         return $this;
     }

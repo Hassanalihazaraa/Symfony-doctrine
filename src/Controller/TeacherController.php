@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -17,6 +18,8 @@ class TeacherController extends AbstractController
 {
     /**
      * @Route("/", name="teacher_index", methods={"GET"})
+     * @param TeacherRepository $teacherRepository
+     * @return Response
      */
     public function index(TeacherRepository $teacherRepository): Response
     {

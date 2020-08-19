@@ -97,4 +97,15 @@ class Address
 
         return $this;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'street' => $this->getStreet(),
+            'streetnumber' => $this->getStreetNumber(),
+            'city' => $this->getCity(),
+            'zipcode' => $this->getZipcode(),
+        ];
+    }
 }

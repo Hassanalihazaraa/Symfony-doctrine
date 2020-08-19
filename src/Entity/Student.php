@@ -106,4 +106,16 @@ class Student
 
         return $this;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'firstname' => $this->getFirstName(),
+            'lastname' => $this->getLastName(),
+            'email' => $this->getEmail(),
+            'address' => $this->getAddress(),
+            'teacher' => $this->getTeacher()
+        ];
+    }
 }

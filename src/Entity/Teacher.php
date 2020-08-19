@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use App\Repository\TeacherRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Embedded;
 
 /**
  * @ORM\Entity(repositoryClass=TeacherRepository::class)
@@ -28,9 +29,7 @@ class Teacher
      */
     private string $email;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @Embedded(class = "Address") */
     private string $address;
 
     public function getId(): int

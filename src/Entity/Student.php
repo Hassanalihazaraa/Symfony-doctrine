@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use App\Repository\StudentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Embedded;
 
 /**
  * @ORM\Entity(repositoryClass=StudentRepository::class)
@@ -33,9 +34,7 @@ class Student
      */
     private string $email;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @Embedded(class = "Address") */
     private string $address;
 
     /**

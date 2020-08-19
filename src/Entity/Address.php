@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Embeddable;
 
-/**
- * @ORM\Entity(repositoryClass=AddressRepository::class)
- */
+/** @Embeddable */
 class Address
 {
     /**
@@ -37,6 +35,15 @@ class Address
      * @ORM\Column(type="integer")
      */
     private int $zipcode;
+
+    public function __construct(int $id, string $street, int $streetNumber, string $city, int $zipcode)
+    {
+        $this->id = $id;
+        $this->street = $street;
+        $this->streetNumber = $streetNumber;
+        $this->city = $city;
+        $this->zipcode = $zipcode;
+    }
 
     public function getId(): int
     {

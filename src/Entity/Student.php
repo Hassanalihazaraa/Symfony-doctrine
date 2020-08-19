@@ -15,39 +15,39 @@ class Student
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $firstname;
+    private string $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $lastname;
+    private string $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $email;
+    private string $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $address;
+    private string $address;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $teacher;
+    private string $teacher;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getFirstname(): ?string
+    public function getFirstname(): string
     {
         return $this->firstname;
     }
@@ -59,7 +59,7 @@ class Student
         return $this;
     }
 
-    public function getLastname(): ?string
+    public function getLastname(): string
     {
         return $this->lastname;
     }
@@ -71,7 +71,7 @@ class Student
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -83,7 +83,7 @@ class Student
         return $this;
     }
 
-    public function getAddress(): ?string
+    public function getAddress(): string
     {
         return $this->address;
     }
@@ -95,7 +95,7 @@ class Student
         return $this;
     }
 
-    public function getTeacher(): ?string
+    public function getTeacher(): string
     {
         return $this->teacher;
     }

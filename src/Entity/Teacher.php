@@ -5,7 +5,6 @@ namespace App\Entity;
 
 use App\Repository\TeacherRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -101,10 +100,7 @@ class Teacher
         return $this;
     }
 
-    /**
-     * @return Collection|Student[]
-     */
-    public function getStudents(): Collection
+    public function getStudents(): ArrayCollection
     {
         return $this->students;
     }
@@ -120,7 +116,7 @@ class Teacher
 
     public function deleteStudents(Student $student): Teacher
     {
-        if (!$this->students->isEmpty()){
+        if (!$this->students->isEmpty()) {
             $this->students->removeElement($student);
             $student->setTeacher(null);
         }

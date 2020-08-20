@@ -25,7 +25,7 @@ class StudentRepository extends ServiceEntityRepository
     }
 
     //create
-    public function saveStudent($firstName, $lastName, $email, $address, $teacher)
+    public function add($firstName, $lastName, $email, $address, $teacher)
     {
         $student = new Student();
         $student->setFirstName($firstName);
@@ -39,7 +39,7 @@ class StudentRepository extends ServiceEntityRepository
     }
 
     //update
-    public function updateStudent(Student $student)
+    public function update(Student $student)
     {
         $this->manager->persist($student);
         $this->manager->flush();
@@ -48,7 +48,7 @@ class StudentRepository extends ServiceEntityRepository
     }
 
     //delete
-    public function removeStudent(Student $student)
+    public function delete(Student $student)
     {
         $this->manager->remove($student);
         $this->manager->flush();

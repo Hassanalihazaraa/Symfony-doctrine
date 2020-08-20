@@ -40,7 +40,7 @@ class StudentController extends AbstractController
     }
 
     /**
-     * @Route("/", name="getAll_students", methods={"GET"})
+     * @Route("/students", name="getAll_students", methods={"GET"})
      * @return JsonResponse
      */
     public function findAll(): JsonResponse
@@ -69,11 +69,11 @@ class StudentController extends AbstractController
         $address = new Address($data['address_street'], $data['address_street_number'], $data['address_city'], $data['address_zipcode']);
         $teacher = $teacherRepository->findOneBy(['id' => $data['teacher_id']]);
 
-        $this->studentRepository->saveStudent($firstName, $lastName, $email, $address, $teacher);
+        $this->studentRepository->add($firstName, $lastName, $email, $address, $teacher);
         if ($firstName === null || $lastName === null || $email === null || $address === null || $teacher === null) {
             throw new NotFoundHttpException('Expecting mandatory inputs!');
         }
-        return new JsonResponse(['status' => 'Student is created successfully!'], Response::HTTP_CREATED);
+        return new JsonResponse(['status' => 'Student has been created successfully!'], Response::HTTP_CREATED);
     }
 
     /**
@@ -105,9 +105,9 @@ class StudentController extends AbstractController
         }
         empty($data['teacher_id']) ? true : $student->setTeacher($teacher);
 
-        $this->studentRepository->updateStudent($student);
+        $this->studentRepository->update($student);
 
-        return new JsonResponse(['status' => 'Your data is updated successfully'], Response::HTTP_OK);
+        return new JsonResponse(['status' => 'Your data has been updated successfully'], Response::HTTP_OK);
     }
 
     /**
@@ -121,8 +121,8 @@ class StudentController extends AbstractController
         if ($student === null) {
             throw new HttpException(404, 'Student not found');
         }
-        $this->studentRepository->removeStudent($student);
+        $this->studentRepository->delete($student);
 
-        return new JsonResponse(['status' => 'Student deleted successfully'], Response::HTTP_OK);
+        return new JsonResponse(['status' => 'Student has been deleted successfully'], Response::HTTP_OK);
     }
 }

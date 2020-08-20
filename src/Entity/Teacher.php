@@ -58,7 +58,7 @@ class Teacher
         return $this->firstName;
     }
 
-    public function setName(string $firstName): self
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -109,7 +109,23 @@ class Teacher
         return $this->students;
     }
 
+    public function setStudents(Student $student): Teacher
+    {
+        if ($this->students->contains($student)) {
+            $this->students[] = $student;
+            $student->setTeacher($this);
+        }
+        return $this;
+    }
 
+    public function deleteStudents(Student $student): Teacher
+    {
+        if (!$this->students->isEmpty()){
+            $this->students->removeElement($student);
+            $student->setTeacher(null);
+        }
+        return $this;
+    }
 
     public function toArray(): array
     {

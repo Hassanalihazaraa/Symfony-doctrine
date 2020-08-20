@@ -11,13 +11,13 @@ class Address
     /** @ORM\Column(type="string") */
     private string $street;
 
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="integer") */
     private int $streetNumber;
 
     /** @ORM\Column(type="string") */
     private string $city;
 
-    /** @ORM\Column(type="string") */
+    /** @ORM\Column(type="integer") */
     private int $zipcode;
 
     public function __construct(string $street, int $streetNumber, string $city, int $zipcode)

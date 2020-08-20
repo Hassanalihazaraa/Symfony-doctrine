@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Student;
 use App\Entity\Teacher;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -15,37 +17,40 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TeacherRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private EntityManagerInterface $manager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Teacher::class);
+        $this->manager = $manager;
     }
 
-    // /**
-    //  * @return Teacher[] Returns an array of Teacher objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    //create
+    public function add($firstName, $lastName, $email, $address)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $teacher = new Teacher();
+        $teacher->setFirstName($firstName);
+        $teacher->setLastName($lastName);
+        $teacher->setEmail($email);
+        $teacher->setAddress($address);
 
-    /*
-    public function findOneBySomeField($value): ?Teacher
-    {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $this->manager->persist($teacher);
+        $this->manager->flush();
     }
-    */
+
+    //update
+    public function update(Teacher $teacher)
+    {
+        $this->manager->persist($teacher);
+        $this->manager->flush();
+
+        return $teacher;
+    }
+
+    //delete
+    public function delete(Teacher $teacher)
+    {
+        $this->manager->remove($teacher);
+        $this->manager->flush();
+    }
 }

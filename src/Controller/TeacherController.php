@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TeacherController extends AbstractController
 {
     /**
-     * @Route("/teacher/{id}", name="get_teacher", methods={"GET"})
+     * @Route("/teachers/{id}", name="get_teacher", methods={"GET"})
      * @param Teacher $teacher
      * @return Response
      */
@@ -26,7 +26,7 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/teacher", name="getAll_teacher", methods={"GET"})
+     * @Route("/teachers", name="getAll_teacher", methods={"GET"})
      * @param TeacherRepository $teacherRepository
      * @return Response
      */
@@ -36,7 +36,7 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/teacher", name="add_teacher, methods={"POST"})
+     * @Route("/teachers", name="add_teacher, methods={"POST"})
      * @param Request $request
      * @return Response
      */
@@ -49,7 +49,7 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/update/{id}", name="update_teacher", methods={"POST"})
+     * @Route("/teachers/{id}", name="update_teacher", methods={"POST"})
      * @param Request $request
      * @param Teacher $teacher
      * @return Response
@@ -60,7 +60,7 @@ class TeacherController extends AbstractController
     }
 
     /**
-     * @Route("/teacher/{id}", name="delete_teacher", methods={"DELETE"})
+     * @Route("/teachers/{id}", name="delete_teacher", methods={"DELETE"})
      * @param Request $request
      * @param Teacher $teacher
      * @return Response

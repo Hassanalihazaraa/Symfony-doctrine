@@ -5,6 +5,7 @@ namespace App\Repository;
 
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -15,37 +16,41 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class StudentRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private EntityManagerInterface $manager;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Student::class);
+        $this->manager = $manager;
     }
 
-    // /**
-    //  * @return Student[] Returns an array of Student objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    //create
+    public function saveStudent($firstName, $lastName, $email, $address, $teacher): void
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $student = new Student();
+        $student->setFirstName($firstName);
+        $student->setLastName($lastName);
+        $student->setEmail($email);
+        $student->setAddress($address);
+        $student->setTeacher($teacher);
 
-    /*
-    public function findOneBySomeField($value): ?Student
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $this->manager->persist($student);
+        $this->manager->flush();
     }
-    */
+
+    //update
+    public function updateStudent(Student $student): Student
+    {
+        $this->manager->persist($student);
+        $this->manager->flush();
+
+        return $student;
+    }
+
+    //delete
+    public function removeStudent(Student $student): Student
+    {
+        $this->manager->remove($student);
+        $this->manager->flush();
+    }
 }

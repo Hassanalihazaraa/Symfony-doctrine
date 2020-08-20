@@ -5,7 +5,6 @@ namespace App\Entity;
 
 use App\Repository\StudentRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Embedded;
 
 /**
  * @ORM\Entity(repositoryClass=StudentRepository::class)
@@ -13,62 +12,53 @@ use Doctrine\ORM\Mapping\Embedded;
 class Student
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
      * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue *
      */
     private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private string $firstname;
+    /** @ORM\Column(type="string") * */
+    private string $firstName;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private string $lastname;
+    /** @ORM\Column(type="string") * */
+    private string $lastName;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @ORM\Column(type="string") * */
     private string $email;
 
-    /** @Embedded(class = "Address") */
-    private string $address;
+    /** @ORM\Embedded(class="Address") */
+    private Address $address;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=Teacher::class, inversedBy="students")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private string $teacher;
+    private Teacher $teacher;
 
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getFirstname(): string
+    public function getFirstName(): string
     {
-        return $this->firstname;
+        return $this->firstName;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstName(string $firstName): string
     {
-        $this->firstname = $firstname;
-
-        return $this;
+        $this->firstName = $firstName;
     }
 
-    public function getLastname(): string
+    public function getLastName(): string
     {
-        return $this->lastname;
+        return $this->lastName;
     }
 
-    public function setLastname(string $lastname): self
+    public function setLastName(string $lastName): string
     {
-        $this->lastname = $lastname;
-
-        return $this;
+        $this->lastName = $lastName;
     }
 
     public function getEmail(): string
@@ -76,35 +66,29 @@ class Student
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email): string
     {
         $this->email = $email;
-
-        return $this;
     }
 
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
-
-    public function setAddress(string $address): self
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    public function getTeacher(): string
+    public function getTeacher(): Teacher
     {
         return $this->teacher;
     }
 
-    public function setTeacher(string $teacher): self
+    public function setTeacher(Teacher $teacher): string
     {
         $this->teacher = $teacher;
+    }
 
-        return $this;
+    public function getAddress(): Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): Address
+    {
+        $this->address = $address;
     }
 
     public function toArray(): array
@@ -114,8 +98,8 @@ class Student
             'firstname' => $this->getFirstName(),
             'lastname' => $this->getLastName(),
             'email' => $this->getEmail(),
-            'address' => $this->getAddress(),
-            'teacher' => $this->getTeacher()
+            'address' => $this->getAddress()->toArray(),
+            'teacher_id' => $this->getTeacher()->getId()
         ];
     }
 }

@@ -4,50 +4,28 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Embeddable;
 
-/** @Embeddable */
+/** @ORM\Embeddable */
 class Address
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @ORM\Column(type="string") * */
     private string $street;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    /** @ORM\Column(type="string") * */
     private int $streetNumber;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    /** @ORM\Column(type="string") * */
     private string $city;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    /** @ORM\Column(type="string") * */
     private int $zipcode;
 
-    public function __construct(int $id, string $street, int $streetNumber, string $city, int $zipcode)
+    public function __construct(string $street, int $streetNumber, string $city, int $zipcode)
     {
-        $this->id = $id;
         $this->street = $street;
         $this->streetNumber = $streetNumber;
         $this->city = $city;
         $this->zipcode = $zipcode;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getStreet(): string
@@ -55,11 +33,9 @@ class Address
         return $this->street;
     }
 
-    public function setStreet(string $street): self
+    public function setStreet(string $street): string
     {
         $this->street = $street;
-
-        return $this;
     }
 
     public function getStreetNumber(): int
@@ -67,11 +43,9 @@ class Address
         return $this->streetNumber;
     }
 
-    public function setStreetNumber(int $streetNumber): self
+    public function setStreetNumber(int $streetNumber): int
     {
         $this->streetNumber = $streetNumber;
-
-        return $this;
     }
 
     public function getCity(): string
@@ -79,11 +53,9 @@ class Address
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity(string $city): string
     {
         $this->city = $city;
-
-        return $this;
     }
 
     public function getZipcode(): int
@@ -91,17 +63,14 @@ class Address
         return $this->zipcode;
     }
 
-    public function setZipcode(int $zipcode): self
+    public function setZipcode(int $zipcode): int
     {
         $this->zipcode = $zipcode;
-
-        return $this;
     }
 
     public function toArray(): array
     {
         return [
-            'id' => $this->getId(),
             'street' => $this->getStreet(),
             'streetnumber' => $this->getStreetNumber(),
             'city' => $this->getCity(),

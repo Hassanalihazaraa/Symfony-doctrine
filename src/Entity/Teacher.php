@@ -4,11 +4,12 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\TeacherRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Embedded;
 
 /**
- * @ORM\Entity(repositoryClass=TeacherRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\TeacherRepository", repositoryClass=TeacherRepository::class)
  */
 class Teacher
 {
@@ -34,8 +35,19 @@ class Teacher
      */
     private string $email;
 
-    /** @Embedded(class = "Address") */
+    /** @ORM\Embedded(class="Address") */
     private string $address;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Student::class, mappedBy="teacher", orphanRemoval=true)
+     * @ORM\Column(type="string")
+     */
+    private ArrayCollection $students;
+
+    public function __construct()
+    {
+        $this->students = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -66,7 +78,6 @@ class Teacher
         return $this;
     }
 
-
     public function getEmail(): string
     {
         return $this->email;
@@ -91,14 +102,34 @@ class Teacher
         return $this;
     }
 
+    /**
+     * @return Collection|Student[]
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+
+
     public function toArray(): array
     {
+        $students = [];
+        foreach ($this->getStudents() as $student) {
+            $students[] = [
+                'id' => $student,
+                'firstname' => $student->getFirstName(),
+                'lastname' => $student->getLastName(),
+                'email' => $student->getEmail(),
+                'address' => $student->getAddress()
+            ];
+        }
         return [
             'id' => $this->getId(),
             'firstname' => $this->getFirstName(),
             'lastname' => $this->getLastName(),
             'email' => $this->getEmail(),
-            'address' => $this->getAddress(),
+            'address' => $this->getAddress()->toArray(),
             'student' => $students
         ];
     }

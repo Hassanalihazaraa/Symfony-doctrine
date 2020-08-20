@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Address;
-use App\Entity\Student;
-use App\Entity\Teacher;
 use App\Repository\StudentRepository;
 use App\Repository\TeacherRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use function Symfony\Component\String\s;
 
 class StudentController extends AbstractController
 {
@@ -35,11 +32,11 @@ class StudentController extends AbstractController
     public function findOne(int $id): JsonResponse
     {
         $student = $this->studentRepository->findOneBy(['id' => $id]);
-        if (!$student) {
+        if ($student === null) {
             throw new HttpException(404, "Student not found");
 
         }
-        return new JsonResponse([$student, Response::HTTP_OK]);
+        return new JsonResponse([$student->toArray(), Response::HTTP_OK]);
     }
 
     /**
@@ -51,14 +48,7 @@ class StudentController extends AbstractController
         $students = $this->studentRepository->findAll();
         $data = [];
         foreach ($students as $student) {
-            $data[] = [
-                'id' => $student->getId(),
-                'firstName' => $student->getFirstName(),
-                'lastName' => $student->getLastName(),
-                'email' => $student->getEmail(),
-                'address' => $student->getAddress(),
-                'teacher' => $student->getTeacher()
-            ];
+            $data[] = $student->toArray();
         }
         return new JsonResponse($data, Response::HTTP_OK);
     }
@@ -76,15 +66,14 @@ class StudentController extends AbstractController
         $firstName = $data['firstname'];
         $lastName = $data['lastname'];
         $email = $data['email'];
-        $address = new Address($data['address']['street'], $data['address']['streetnumber'], $data['address']['city'], $data['address']['zipcode']);
+        $address = new Address($data['address_street'], $data['address_street_number'], $data['address_city'], $data['address_zipcode']);
         $teacher = $teacherRepository->findOneBy(['id' => $data['teacher_id']]);
 
+        $this->studentRepository->saveStudent($firstName, $lastName, $email, $address, $teacher);
         if ($firstName === null || $lastName === null || $email === null || $address === null || $teacher === null) {
             throw new NotFoundHttpException('Expecting mandatory inputs!');
         }
-
-        $this->studentRepository->saveStudent($firstName, $lastName, $email, $address, $teacher);
-        return new JsonResponse(['status' => 'Student is created!'], Response::HTTP_CREATED);
+        return new JsonResponse(['status' => 'Student is created successfully!'], Response::HTTP_CREATED);
     }
 
     /**
@@ -98,39 +87,42 @@ class StudentController extends AbstractController
     public function update(int $id, Request $request, TeacherRepository $teacherRepository): JsonResponse
     {
         $student = $this->studentRepository->findOneBy(['id' => $id]);
-        if (!$student) {
-            throw new HttpException(404, 'Not found');
+        if ($student === null) {
+            throw new HttpException(404, 'Student not found');
         }
+
         $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
-        empty($data['firstName']) ? true : $student->setFirstName($data['firstName']);
-        empty($data['lastName']) ? true : $student->setLastName($data['lastName']);
+        $address = new Address($data['address_street'], $data['address_street_number'], $data['address_city'], $data['address_zipcode']);
+
+        empty($data['firstname']) ? true : $student->setFirstName($data['firstname']);
+        empty($data['lastname']) ? true : $student->setLastName($data['lastname']);
         empty($data['email']) ? true : $student->setEmail($data['email']);
-        empty($data['address']) ? true : $student->setAddress(new Address($data['address']['street'], $data['address']['streetnumber'], $data['address']['city'], $data['address']['zipcode']));
+        empty($data['address_street'] && $data['address_street_number'] && $data['address_city'] && $data['address_zipcode']) ? true : $student->setAddress($address);
 
         $teacher = $teacherRepository->findOneBy(['id' => $data['teacher_id']]);
-        if (!$teacher) {
-            throw new HttpException(404, 'Not found');
+        if ($teacher === null) {
+            throw new HttpException(404, 'Teacher not found');
         }
         empty($data['teacher_id']) ? true : $student->setTeacher($teacher);
 
-        $updatedStudent = $this->studentRepository->updateStudent($student);
+        $this->studentRepository->updateStudent($student);
 
-        return new JsonResponse($updatedStudent->toArray(), Response::HTTP_OK);
+        return new JsonResponse(['status' => 'Your data is updated successfully'], Response::HTTP_OK);
     }
 
     /**
      * @Route("/students/{id}", name="delete_student", methods={"DELETE"})
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
-    public function delete(int $id): Response
+    public function delete(int $id): JsonResponse
     {
         $student = $this->studentRepository->findOneBy(['id' => $id]);
-        if (!$student) {
-            throw new HttpException(404, 'Not found');
+        if ($student === null) {
+            throw new HttpException(404, 'Student not found');
         }
         $this->studentRepository->removeStudent($student);
 
-        return new JsonResponse(['status' => 'Student deleted'], Response::HTTP_NO_CONTENT);
+        return new JsonResponse(['status' => 'Student deleted successfully'], Response::HTTP_OK);
     }
 }

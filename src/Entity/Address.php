@@ -8,16 +8,16 @@ use Doctrine\ORM\Mapping as ORM;
 /** @ORM\Embeddable */
 class Address
 {
-    /** @ORM\Column(type="string") * */
+    /** @ORM\Column(type="string") */
     private string $street;
 
-    /** @ORM\Column(type="string") * */
+    /** @ORM\Column(type="string") */
     private int $streetNumber;
 
-    /** @ORM\Column(type="string") * */
+    /** @ORM\Column(type="string") */
     private string $city;
 
-    /** @ORM\Column(type="string") * */
+    /** @ORM\Column(type="string") */
     private int $zipcode;
 
     public function __construct(string $street, int $streetNumber, string $city, int $zipcode)

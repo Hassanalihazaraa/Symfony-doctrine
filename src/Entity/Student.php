@@ -14,27 +14,27 @@ class Student
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue *
+     * @ORM\GeneratedValue
      */
     private int $id;
 
-    /** @ORM\Column(type="string") * */
+    /** @ORM\Column(type="string") */
     private string $firstName;
 
-    /** @ORM\Column(type="string") * */
+    /** @ORM\Column(type="string") */
     private string $lastName;
 
-    /** @ORM\Column(type="string") * */
+    /** @ORM\Column(type="string") */
     private string $email;
 
     /** @ORM\Embedded(class="Address") */
-    private Address $address;
+    private $address;
 
     /**
      * @ORM\ManyToOne(targetEntity=Teacher::class, inversedBy="students")
      * @ORM\JoinColumn(nullable=false)
      */
-    private Teacher $teacher;
+    private $teacher;
 
     public function getId(): int
     {
@@ -46,7 +46,7 @@ class Student
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): string
+    public function setFirstName(string $firstName)
     {
         $this->firstName = $firstName;
     }
@@ -56,7 +56,7 @@ class Student
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): string
+    public function setLastName(string $lastName)
     {
         $this->lastName = $lastName;
     }
@@ -66,7 +66,7 @@ class Student
         return $this->email;
     }
 
-    public function setEmail(string $email): string
+    public function setEmail(string $email)
     {
         $this->email = $email;
     }
@@ -76,7 +76,7 @@ class Student
         return $this->teacher;
     }
 
-    public function setTeacher(Teacher $teacher): string
+    public function setTeacher(Teacher $teacher)
     {
         $this->teacher = $teacher;
     }
@@ -86,7 +86,7 @@ class Student
         return $this->address;
     }
 
-    public function setAddress(Address $address): Address
+    public function setAddress(Address $address)
     {
         $this->address = $address;
     }

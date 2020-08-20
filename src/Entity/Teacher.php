@@ -36,13 +36,12 @@ class Teacher
     private string $email;
 
     /** @ORM\Embedded(class="Address") */
-    private string $address;
+    private $address;
 
     /**
      * @ORM\OneToMany(targetEntity=Student::class, mappedBy="teacher", orphanRemoval=true)
-     * @ORM\Column(type="string")
      */
-    private ArrayCollection $students;
+    private $students;
 
     public function __construct()
     {
@@ -90,12 +89,12 @@ class Teacher
         return $this;
     }
 
-    public function getAddress(): string
+    public function getAddress(): Address
     {
         return $this->address;
     }
 
-    public function setAddress(string $address): self
+    public function setAddress(Address $address): self
     {
         $this->address = $address;
 
@@ -120,8 +119,7 @@ class Teacher
                 'id' => $student,
                 'firstname' => $student->getFirstName(),
                 'lastname' => $student->getLastName(),
-                'email' => $student->getEmail(),
-                'address' => $student->getAddress()
+                'email' => $student->getEmail()
             ];
         }
         return [
